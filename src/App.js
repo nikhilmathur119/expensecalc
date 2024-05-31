@@ -1,24 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react';
+import { ThemeProvider, CssBaseline } from '@mui/material';
+import Input from './Components/Input.jsx';
+import MonthlyExpense from './Components/MonthlyExpense.jsx';
+import theme from './Components/Theme.js';
 
 function App() {
+  const storeditem = JSON.parse(localStorage.getItem('items'));
+  const [items, setItems] = useState(storeditem || []);
+
+  useEffect(() => {
+    localStorage.setItem('items', JSON.stringify(items));
+  }, [items]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <div>
+        <Input items={items} setItems={setItems} />
+      </div>
+    </ThemeProvider>
   );
 }
 
